@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ContactsDemoWebApp.Data;
 
 namespace ContactsDemoWebApp
 {
@@ -25,9 +20,6 @@ namespace ContactsDemoWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddDbContext<ContactsDemoWebAppContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ContactsDemoWebAppContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

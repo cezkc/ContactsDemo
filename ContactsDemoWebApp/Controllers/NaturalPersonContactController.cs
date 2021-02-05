@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ContactsDemoWebApp.Data;
 using ContactsDemoWebApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -16,7 +14,6 @@ namespace ContactsDemoWebApp.Controllers
     public class NaturalPersonContactController : Controller
     {
         private const string _API_ENDPOINT = "http://localhost:61678/api/Contact/";
-        private readonly ContactsDemoWebAppContext _context;
         private static HttpClient httpClient = new HttpClient();
 
         public NaturalPersonContactController()
