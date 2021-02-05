@@ -11,7 +11,6 @@
 - Swagger used on API documentation
 - Razor presentation layer made with Razor scaffold 
 - Automapper for mapping Models to ViewModels and vice versa
-- Clean Architecture based implementation 
 - Repository pattern used to isolate database calls and make it more decoupled
 - Used in-memory collections due the short time to build the project, but it can be easily replaced
 
@@ -20,3 +19,4 @@
 - Tests
 - Better handling of HTTP messages returned by the API on presentation layer
 - Better handling of Natural Person and Legal Person on the API endpoints
+- Implementation of Services if needed to remove of Controller responsability
