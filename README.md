@@ -19,4 +19,4 @@
 - Tests
 - Better handling of HTTP messages returned by the API on presentation layer
 - Better handling of Natural Person and Legal Person on the API endpoints
-- Implementation of Services if needed to remove of Controller responsability
+- Implementation of Services if needed to segregate some of Controller responsability
