@@ -4,6 +4,7 @@
 ### Initial Setup and Testing
 - Load solution dependencies 
 - Load client-side libraries on ContactsDemoWebApp (libman)
+- Set Solution to startup projects ContactsWebAPI and ContactsDemoWebApp, they have to be executing at the same time, because the API is called by the WebApplication
 - The application can be tested by API calls on Swagger or by presentation layer
 
 ### Technologies and features:
