@@ -32,8 +32,9 @@ namespace ContactsDemoWebApp.Models
         [Required]
         public string City { get; set; }
         [Required]
+        [Display(Name = "Address Line 1")]
         public string AddressLine1 { get; set; }
-
+        [Display(Name = "Address Line 2")]
         public string AddressLine2 { get; set; }
         #endregion
     }

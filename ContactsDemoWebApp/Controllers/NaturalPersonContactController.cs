@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ContactsDemoWebApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -122,7 +121,7 @@ namespace ContactsDemoWebApp.Controllers
                     var postResult = await httpClient.PostAsync(_API_ENDPOINT + "NaturalPerson", httpContent);
                     postResult.EnsureSuccessStatusCode();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     throw;
                 }
