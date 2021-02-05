@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "jquery-mask-plugin@1.14.16",
+      "destination": "wwwroot/lib/jquery-mask-plugin/",
+      "files": [
+        "dist/jquery.mask.js",
+        "dist/jquery.mask.min.js",
+        "src/jquery.mask.js"
+      ]
+    }
+  ]
+}

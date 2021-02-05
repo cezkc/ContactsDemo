@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ContactsWebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.GetNaturalPerson">
+            <summary>
+            Lists all existent Contacts which are Natural Person
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.GetLegalPerson">
+            <summary>
+            Lists all existent Contacts which are Legal Person
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.GetNaturalPerson(System.Int32)">
+            <summary>
+            Gets a Natural Person contact by its id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.GetLegalPerson(System.Int32)">
+            <summary>
+            Gets a Legal Person contact by its id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.Delete(System.Int32)">
+            <summary>
+            Delete a Contact by its id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.PostLegalPerson(ContactsDemo.Domain.DTO.LegalPersonContactDTO)">
+            <summary>
+            Receive a Contact of Legal Person to save
+            </summary>
+            <param name="contact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ContactsWebAPI.Controllers.ContactController.PostNaturalPerson(ContactsDemo.Domain.DTO.NaturalPersonContactDTO)">
+            <summary>
+            Receive a Contact of Natural Person to save
+            </summary>
+            <param name="contact"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
