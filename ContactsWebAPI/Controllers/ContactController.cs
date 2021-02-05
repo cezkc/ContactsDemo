@@ -104,8 +104,9 @@ namespace ContactsWebAPI.Controllers
 
             if (!contactDTO.IsCNPJValid())
             {
-                ModelState.AddModelError("CNPJ", "Invalid CNPJ! Must follow the pattern xx.xxx.xxx/xxxx-xx");
-                return BadRequest(ModelState);
+                var error = new ErrorModel();
+                error.Messages = new string[] { "Invalid CNPJ! Must follow the pattern xx.xxx.xxx/xxxx-xx" };
+                return BadRequest(error);
             }
 
             ContactDTOMapper mapper = new ContactDTOMapper(_mapper);
@@ -127,11 +128,11 @@ namespace ContactsWebAPI.Controllers
         [Route("NaturalPerson")]
         public ActionResult<NaturalPersonContactDTO> PostNaturalPerson(NaturalPersonContactDTO contactDTO)
         {
-
             if (!contactDTO.IsCPFValid())
             {
-                ModelState.AddModelError("CPF", "Invalid CPF! Must follow the pattern xxx.xxx.xxx-xx");
-                return BadRequest(ModelState);
+                var error = new ErrorModel();
+                error.Messages = new string[]{ "Invalid CPF! Must follow the pattern xxx.xxx.xxx-xx"};
+                return BadRequest(error);
             }
 
             ContactDTOMapper mapper = new ContactDTOMapper(_mapper);

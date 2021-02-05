@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ContactsDemoWebApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace ContactsDemoWebApp.Controllers
 {
@@ -33,18 +33,18 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"LegalPerson/{id}");
-            var legalPersonContactList = new List<LegalPersonContactViewModel>();
-            responseMessage.EnsureSuccessStatusCode();
             string responseBody = await responseMessage.Content.ReadAsStringAsync();
             var legalPersonContactViewModel = JsonConvert.DeserializeObject<LegalPersonContactViewModel>(responseBody);
 
             if (legalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return View(legalPersonContactViewModel);
             }
 
             return View(legalPersonContactViewModel);
@@ -69,7 +69,11 @@ namespace ContactsDemoWebApp.Controllers
                 var httpContent = new StringContent(jsonContent);
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 var postResult = await httpClient.PostAsync(_API_ENDPOINT + "LegalPerson", httpContent);
-                postResult.EnsureSuccessStatusCode();
+                
+                var valid = await APIErrorValidation(postResult);
+                if (!valid)
+                    return View(legalPersonContactViewModel);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(legalPersonContactViewModel);
@@ -80,7 +84,8 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"LegalPerson/{id}");
@@ -89,10 +94,10 @@ namespace ContactsDemoWebApp.Controllers
             string responseBody = await responseMessage.Content.ReadAsStringAsync();
             var legalPersonContactViewModel = JsonConvert.DeserializeObject<LegalPersonContactViewModel>(responseBody);
 
-            //var legalPersonContactViewModel = await _context.LegalPersonContactViewModel.FindAsync(id);
             if (legalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
             return View(legalPersonContactViewModel);
         }
@@ -106,28 +111,39 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id != legalPersonContactViewModel.Id)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var jsonContent = JsonConvert.SerializeObject(legalPersonContactViewModel);
-                    var httpContent = new StringContent(jsonContent);
-                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postResult = await httpClient.PostAsync(_API_ENDPOINT + "LegalPerson", httpContent);
-                    postResult.EnsureSuccessStatusCode();
-                }
-                catch (Exception ex)
-                {
+                var jsonContent = JsonConvert.SerializeObject(legalPersonContactViewModel);
+                var httpContent = new StringContent(jsonContent);
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var postResult = await httpClient.PostAsync(_API_ENDPOINT + "LegalPerson", httpContent);
 
-                    throw;
+                var valid = await APIErrorValidation(postResult);
+                if (!valid)
+                    return View(legalPersonContactViewModel);
 
-                }
                 return RedirectToAction(nameof(Index));
             }
             return View(legalPersonContactViewModel);
+        }
+
+        private async Task<bool> APIErrorValidation(HttpResponseMessage postResult)
+        {
+            if (!postResult.IsSuccessStatusCode)
+            {
+                var responseBody = await postResult.Content.ReadAsStringAsync();
+                var messages = JsonConvert.DeserializeObject<ErrorModel>(responseBody);
+                StringBuilder errors = new StringBuilder();
+                foreach (var message in messages.messages)
+                    errors.AppendLine(message);
+                ViewBag.Message = errors.ToString();
+                return false;
+            }
+            return true;
         }
 
         // GET: LegalPersonContactViewModels/Delete/5
@@ -135,7 +151,8 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"LegalPerson/{id}");
@@ -145,7 +162,8 @@ namespace ContactsDemoWebApp.Controllers
             var legalPersonContactViewModel = JsonConvert.DeserializeObject<LegalPersonContactViewModel>(responseBody);
             if (legalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(legalPersonContactViewModel);

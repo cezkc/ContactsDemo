@@ -5,7 +5,10 @@
 }
 
 <h1>Edit</h1>
-
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert">@ViewBag.Message</div>
+}
 <h4>Natural Person Contact</h4>
 <hr />
 <div class="row">

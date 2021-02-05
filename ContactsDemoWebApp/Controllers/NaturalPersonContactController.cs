@@ -7,6 +7,7 @@ using ContactsDemoWebApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace ContactsDemoWebApp.Controllers
 {
@@ -17,6 +18,21 @@ namespace ContactsDemoWebApp.Controllers
 
         public NaturalPersonContactController()
         {
+        }
+
+        private async Task<bool> APIErrorValidation(HttpResponseMessage postResult)
+        {
+            if (!postResult.IsSuccessStatusCode)
+            {
+                var responseBody = await postResult.Content.ReadAsStringAsync();
+                var messages = JsonConvert.DeserializeObject<ErrorModel>(responseBody);
+                StringBuilder errors = new StringBuilder();
+                foreach (var message in messages.messages)
+                    errors.AppendLine(message);
+                ViewBag.Message = errors.ToString();
+                return false;
+            }
+            return true;
         }
 
         // GET: NaturalPersonContactViewModels
@@ -36,18 +52,20 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
-            
+
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"NaturalPerson/{id}");
             var legalPersonContactList = new List<NaturalPersonContactViewModel>();
-            responseMessage.EnsureSuccessStatusCode();
+
             string responseBody = await responseMessage.Content.ReadAsStringAsync();
             var naturalPersonContactViewModel = JsonConvert.DeserializeObject<NaturalPersonContactViewModel>(responseBody);
 
             if (naturalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(naturalPersonContactViewModel);
@@ -72,7 +90,11 @@ namespace ContactsDemoWebApp.Controllers
                 var httpContent = new StringContent(jsonContent);
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 var postResult = await httpClient.PostAsync(_API_ENDPOINT + "NaturalPerson", httpContent);
-                postResult.EnsureSuccessStatusCode();
+
+                var valid = await APIErrorValidation(postResult);
+                if (!valid)
+                    return View(naturalPersonContactViewModel);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(naturalPersonContactViewModel);
@@ -83,7 +105,8 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"NaturalPerson/{id}");
@@ -94,7 +117,8 @@ namespace ContactsDemoWebApp.Controllers
 
             if (naturalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
             return View(naturalPersonContactViewModel);
         }
@@ -108,23 +132,23 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id != naturalPersonContactViewModel.Id)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var jsonContent = JsonConvert.SerializeObject(naturalPersonContactViewModel);
-                    var httpContent = new StringContent(jsonContent);
-                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postResult = await httpClient.PostAsync(_API_ENDPOINT + "NaturalPerson", httpContent);
-                    postResult.EnsureSuccessStatusCode();
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+
+                var jsonContent = JsonConvert.SerializeObject(naturalPersonContactViewModel);
+                var httpContent = new StringContent(jsonContent);
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var postResult = await httpClient.PostAsync(_API_ENDPOINT + "NaturalPerson", httpContent);
+                postResult.EnsureSuccessStatusCode();
+                
+                var valid = await APIErrorValidation(postResult);
+                if (!valid)
+                    return View(naturalPersonContactViewModel);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(naturalPersonContactViewModel);
@@ -135,7 +159,8 @@ namespace ContactsDemoWebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             var responseMessage = await httpClient.GetAsync(_API_ENDPOINT + $"NaturalPerson/{id}");
@@ -146,7 +171,8 @@ namespace ContactsDemoWebApp.Controllers
 
             if (naturalPersonContactViewModel == null)
             {
-                return NotFound();
+                ViewBag.Message = "Contact not found!";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(naturalPersonContactViewModel);

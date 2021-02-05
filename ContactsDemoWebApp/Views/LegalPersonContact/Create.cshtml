@@ -4,7 +4,10 @@
     ViewData["Title"] = "Create";
 }
 <h1>Create</h1>
-
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert">@ViewBag.Message</div>
+}
 <h4>Legal Person Contact</h4>
 <hr />
 <div class="row">
