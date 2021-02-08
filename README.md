@@ -22,3 +22,4 @@
 - Better handling of HTTP messages returned by the API on presentation layer
 - Better handling of Natural Person and Legal Person on the API endpoints
 - Implementation of Services if needed to segregate some of Controller responsability
+- Implementation of Bearer Token and Identity for security purposes and permissions management
