@@ -10,7 +10,7 @@ namespace ContactsWebAPI.Util
     {
         public ErrorModel(ModelStateDictionary.ValueEnumerable errors)
         {
-            var message = errors.Select(x => x.Errors[0].ErrorMessage).ToArray();
+            var message = errors.Where(x => x.ValidationState == ModelValidationState.Invalid).Select(x => x.Errors[0].ErrorMessage).ToArray();
             Messages = message;
         }
         public ErrorModel()
