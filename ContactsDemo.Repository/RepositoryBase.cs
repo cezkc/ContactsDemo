@@ -1,5 +1,6 @@
 ﻿using ContactsDemo.Domain;
 using ContactsDemo.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,35 +9,43 @@ namespace ContactsDemo.Repository
 {
     public class RepositoryBase<TModel> : IRepositoryBase<TModel> where TModel : BaseEntity
     {
-        internal HashSet<TModel> _entityList = new HashSet<TModel>();
+        private readonly ApplicationContext _context;
+
+        public RepositoryBase(ApplicationContext context)
+        {
+            _context = context;
+        }
         public void Delete(int id)
         {
-            _entityList.RemoveWhere(x => x.Id == id);
+            var entity = _context.Set<TModel>().Where(x => x.Id == id).FirstOrDefault();
+            _context.Set<TModel>().Remove(entity);
+            _context.SaveChanges();
         }
 
-        public List<TModel> Get()
+        public virtual IQueryable<TModel> Get()
         {
-            return _entityList.ToList();
+            return _context.Set<TModel>();
         }
 
-        public virtual TModel GetByPrimaryKey(int Id)
+        public virtual IQueryable<TModel> GetByPrimaryKey(int Id)
         {
-            return _entityList.Where(x => x.Id == Id).FirstOrDefault();
+            return _context.Set<TModel>().Where(x => x.Id == Id);
         }
 
-        public void SaveOrUpdate(TModel contact)
+        public virtual void SaveOrUpdate(TModel entity)
         {
-            if (_entityList.Any(x => x.Id == contact.Id))
+            if (entity.Id <= 0)
             {
-                _entityList.RemoveWhere(x => x.Id == contact.Id);
-                _entityList.Add(contact);
+                //if (_context.Entry(entity).State == EntityState.Detached)
+                //   _context.Entry(entity).State = EntityState.Added;
+                _context.Set<TModel>().Add(entity);
             }
             else
             {
-                contact.Id = (_entityList.Any() ? _entityList.Max(x => x.Id) : 0) + 1;
-                _entityList.Add(contact);
+                _context.Set<TModel>().Update(entity);
             }
 
+            _context.SaveChanges();
         }
     }
 }

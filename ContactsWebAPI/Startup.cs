@@ -62,8 +62,7 @@ namespace ContactsWebAPI
                 swagger.IncludeXmlComments(xmlPathDoc);
 
             });
-
-                 ConfigureDependencies.BuildDependencies(services);
+            ConfigureDependencies.BuildDependencies(services);
 
              }
 

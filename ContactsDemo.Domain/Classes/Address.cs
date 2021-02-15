@@ -1,10 +1,16 @@
 ﻿namespace ContactsDemo.Domain
 {
+
     /// <summary>
     /// Address information
     /// </summary>
-    public class Address
+    public class Address :BaseEntity
     {
+
+        private Address()
+        {
+
+        }
         public string ZipCode { get; set; }
         public string Country { get; set; }
         public string State { get; set; }

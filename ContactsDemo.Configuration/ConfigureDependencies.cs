@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ContactsDemo.Domain.Interfaces;
 using ContactsDemo.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -12,8 +13,10 @@ namespace ContactsDemo.Configuration
         {
             services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 
-            services.AddSingleton(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            services.AddSingleton(typeof(IContactRepository), typeof(ContactRepository));
+            services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddTransient(typeof(IContactRepository), typeof(ContactRepository));
+
+            services.AddDbContext<ApplicationContext>(opt => opt.UseInMemoryDatabase("databaseName"));
         }
     }
 }

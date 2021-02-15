@@ -7,13 +7,21 @@ namespace ContactsDemo.Domain.Classes
     /// <summary>
     /// Base class for Person
     /// </summary>
-    public class Person
+    public class Person : BaseEntity
     {
+        public Person()
+        {
+            if (this is NaturalPerson)
+                IsNaturalPerson = true;
+            else
+                IsLegalPerson = true;
+        }
+
         public NaturalPerson NaturalPerson
         {
             get
             {
-                if (IsNaturalPerson())
+                if (IsNaturalPerson)
                     return this as NaturalPerson;
                 else
                     return null;
@@ -24,21 +32,16 @@ namespace ContactsDemo.Domain.Classes
         {
             get
             {
-                if (IsNaturalPerson())
+                if (IsLegalPerson)
                     return this as LegalPerson;
                 else
                     return null;
             }
         }
 
-        public bool IsNaturalPerson()
-        {
-            return this is NaturalPerson;
-        }
+        public bool IsNaturalPerson { get; set; }
 
-        public bool IsLegalPerson()
-        {
-            return this is LegalPerson;
-        }
+        public bool IsLegalPerson { get; set; }
+
     }
 }

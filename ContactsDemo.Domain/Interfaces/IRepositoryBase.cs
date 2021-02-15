@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ContactsDemo.Domain.Interfaces
@@ -8,7 +9,7 @@ namespace ContactsDemo.Domain.Interfaces
     {
         public void SaveOrUpdate(TModel contact);
         public void Delete(int id);
-        public TModel GetByPrimaryKey(int Id);
-        public List<TModel> Get();
+        public IQueryable<TModel> GetByPrimaryKey(int Id);
+        public IQueryable<TModel> Get();
     }
 }

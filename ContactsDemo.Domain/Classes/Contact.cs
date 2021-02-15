@@ -5,6 +5,10 @@ namespace ContactsDemo.Domain
 {
     public class Contact : BaseEntity
     {
+        private Contact()
+        {
+
+        }
         public Contact(Person person, Address address)
         {
             Person = person;
