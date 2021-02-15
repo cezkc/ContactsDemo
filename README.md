@@ -14,10 +14,9 @@
 - Automapper for mapping Models to ViewModels and vice versa
 - Clean Architecture implemented to isolate some of the dependencies
 - Repository pattern used to isolate database calls and make it more decoupled
-- Used in-memory collections due to the short time to build the project, but it can be easily replaced
+- EF Core with in memory database
 
 ### To-dos
-- ORM implementation
 - Tests
 - Better handling of HTTP messages returned by the API on presentation layer
 - Better handling of Natural Person and Legal Person on the API endpoints
