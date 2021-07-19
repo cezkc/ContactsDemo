@@ -9,10 +9,12 @@ namespace ContactsDemo.Configuration
 
         public MappingProfile()
         {
+            
+            CreateMap<LegalPersonContactDTO, Address>();
+            CreateMap<NaturalPersonContactDTO, Address>();
             CreateMap<NaturalPersonContactDTO, NaturalPerson>();
             CreateMap<LegalPersonContactDTO, LegalPerson>();
-            CreateMap<NaturalPersonContactDTO, Address>();
-            CreateMap<LegalPersonContactDTO, Address>();
+
 
 
             CreateMap<Contact, NaturalPersonContactDTO>()
