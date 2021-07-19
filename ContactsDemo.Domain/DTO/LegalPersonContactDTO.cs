@@ -22,6 +22,7 @@ namespace ContactsDemo.Domain.DTO
 
         public string Teste { get; set; }
         #region Address Information
+        public string Teste { get; set; }
         [Required]
         public string ZipCode { get; set; }
         [Required]
