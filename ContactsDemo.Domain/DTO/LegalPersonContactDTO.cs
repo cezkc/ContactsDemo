@@ -20,9 +20,7 @@ namespace ContactsDemo.Domain.DTO
         public string CNPJ { get; set; }
         #endregion
 
-        public string Teste { get; set; }
         #region Address Information
-        public string Teste { get; set; }
         [Required]
         public string ZipCode { get; set; }
         [Required]
